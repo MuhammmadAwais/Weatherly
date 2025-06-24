@@ -28,7 +28,6 @@ body {
 }
 
 /* Main Container Styling */
-/* Main Container Styling */
 #Container {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("shutterstock_151812536.jpg");
@@ -39,7 +38,7 @@ body {
   padding: 2rem;
   width: 100%;
   max-width: 900px;
-  margin: 0 auto; /* <-- ADD THIS LINE */
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,6 +150,9 @@ body {
 
 /* Next Days Forecast Section */
 #NextDaysNews {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 1rem;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
   padding: 2rem;
@@ -246,28 +248,158 @@ body {
 }
 
 /* Responsive Adjustments */
+@media (max-width: 767px) {
+  body {
+    padding: 1rem 0.5rem; /* Adjust padding for smaller screens */
+  }
+
+  #HeaderName h1 {
+    font-size: 2.5em; /* Smaller font size for header on small screens */
+    margin-bottom: 1.5rem;
+  }
+
+  #Container {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  #InputContainer {
+    flex-direction: column; /* Stack input and button vertically */
+    border-radius: 10px; /* Adjust border radius */
+    max-width: 90%; /* Allow it to take more width on small screens */
+  }
+
+  #CityName {
+    padding: 0.8rem 1rem;
+    font-size: 1em;
+    text-align: center; /* Center placeholder text */
+  }
+
+  #SearchButton {
+    width: 100%; /* Full width button */
+    padding: 0.8rem 0; /* Adjust padding for button */
+    border-radius: 0 0 10px 10px; /* Rounded corners only at the bottom */
+  }
+
+  #SearchButton i {
+    font-size: 1.1em;
+  }
+
+  #WeatherDisplay {
+    flex-direction: column; /* Ensure stacked on small screens */
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  #CurrentWeatherCard,
+  #NextDaysNews {
+    width: 100%; /* Full width for both cards on small screens */
+    padding: 1.5rem;
+  }
+
+  .weather-date-location {
+    font-size: 1em;
+  }
+
+  #current-weather-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  #current-temp {
+    font-size: 3em;
+  }
+
+  #current-condition {
+    font-size: 1.2em;
+  }
+
+  #NextDaysNews h2 {
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(80px, 1fr)
+    ); /* Adjust minmax for smaller items */
+    gap: 0.75rem;
+  }
+
+  .forecast-item {
+    padding: 0.75rem;
+  }
+
+  .forecast-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @media (min-width: 768px) {
   #WeatherDisplay {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: row; /* Side-by-side for larger screens */
+    align-items: flex-start; /* Keeps them top-aligned within the flex container */
+    justify-content: center; /* Centers the group of cards if there's extra space */
+    gap: 2rem; /* Adds consistent space between CurrentWeatherCard and NextDaysNews */
   }
 
   #CurrentWeatherCard {
-    width: 38%;
+    width: 38%; /* Percentage width for responsiveness */
+    max-width: 350px; /* Maximum width for this card */
   }
 
   #NextDaysNews {
-    width: 58%;
+    width: 58%; /* Percentage width for responsiveness */
+    max-width: 550px; /* Maximum width for this card */
   }
+
+  /* Adjustments for medium screens */
+  #HeaderName h1 {
+    font-size: 3em;
+  }
+
+  #Container {
+    padding: 2rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1204px) {
+  /* No changes are strictly necessary for #WeatherDisplay, #CurrentWeatherCard, and #NextDaysNews here,
+     as their general flex layout (side-by-side) is already handled by the broader @media (min-width: 768px) rule.
+     The key is to adjust the internal layout of .forecast-grid. */
+
+  /* Ensure the forecast grid within #NextDaysNews uses a 2-column layout */
+  #NextDaysNews .forecast-grid {
+    grid-template-columns: 1fr 1fr; /* This forces the forecast items into two equal columns */
+    /* The individual grid-row and grid-column declarations for .forecast-item are no longer needed
+       as they will automatically flow correctly within this 2-column grid. */
+  }
+
+  /* The h2 (NEXT 4-DAY FORECAST) will naturally sit above this 2-column grid. */
 }
 
 @media (min-width: 1024px) {
   #HeaderName h1 {
-    font-size: 4em;
+    font-size: 4em; /* Larger header for large screens */
   }
 
   #Container {
     padding: 2.5rem;
+  }
+
+  /* Ensure forecast grid expands on larger screens */
+  .forecast-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(120px, 1fr)
+    ); /* Wider items on large screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Further adjustments for extra large screens if needed */
+  #Container {
+    max-width: 1100px; /* Allow container to be wider */
   }
 }
