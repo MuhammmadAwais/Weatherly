@@ -4,358 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weatherly</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome for search icon -->
+    <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #e0f2f7; /* Light blue background */
-      }
-      .app-container {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-      }
-      .main-card {
-        background-color: #ffffff;
-        border-radius: 1.5rem; /* Rounded-xl */
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* shadow-lg */
-        padding: 2rem;
-        width: 100%;
-        max-width: 96rem; /* equivalent to max-w-4xl, but using a larger value for better visual space */
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-      .current-weather-card {
-        background: linear-gradient(
-          135deg,
-          #60a5fa,
-          #3b82f6
-        ); /* Blue gradient */
-        color: white;
-        border-radius: 1rem; /* rounded-xl */
-        padding: 1.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        flex-shrink: 0; /* Prevents shrinking in flex layout */
-      }
-      .forecast-item {
-        background-color: #ffffff;
-        border-radius: 0.75rem; /* rounded-lg */
-        padding: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow-sm */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        transition: transform 0.2s ease-in-out;
-      }
-      .forecast-item:hover {
-        transform: translateY(-5px);
-      }
-      .search-button {
-        background-color: #2563eb; /* blue-600 */
-        color: white;
-        padding: 0.75rem; /* p-3 */
-        border-radius: 9999px; /* rounded-full */
-        transition: background-color 0.2s ease-in-out;
-      }
-      .search-button:hover {
-        background-color: #1d4ed8; /* blue-700 */
-      }
-      .search-input {
-        flex-grow: 1;
-        border-radius: 9999px; /* rounded-full */
-        padding: 0.75rem 1rem; /* px-4 py-2 */
-        border: 1px solid #d1d5db; /* border-gray-300 */
-        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-      .search-input:focus {
-        outline: none;
-        border-color: #3b82f6; /* blue-500 */
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* ring-2 ring-blue-500 */
-      }
-      .message-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fef3c7; /* yellow-100 */
-        color: #d97706; /* yellow-800 */
-        padding: 1rem 2rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        display: none;
-        text-align: center;
-      }
-      .message-box button {
-        background-color: #d97706;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        cursor: pointer;
-      }
-    </style>
+    <script src="script.js" defer></script>
   </head>
-  <body class="bg-blue-100 antialiased">
-    <div class="app-container">
-      <div class="main-card">
-        <!-- Header Section -->
-        <header
-          class="w-full flex flex-col md:flex-row justify-between items-center mb-6"
-        >
-          <h1 class="text-5xl font-extrabold text-blue-800 mb-4 md:mb-0">
-            WEATHERLY
-          </h1>
-          <div class="flex items-center w-full md:w-auto">
-            <input
-              type="text"
-              id="city-input"
-              placeholder="Enter city name..."
-              class="search-input"
-            />
-            <button id="search-button" class="search-button">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </header>
+  <body>
+    <div id="app-wrapper">
+      <header id="HeaderName">
+        <h1>WEATHERLY</h1>
+      </header>
 
-        <!-- Loading Indicator -->
-        <div
-          id="loading-indicator"
-          class="hidden text-center text-blue-600 font-semibold text-lg"
-        >
-          <i class="fas fa-spinner fa-spin mr-2"></i>Loading weather data...
-        </div>
-
-        <!-- Error Message Box -->
-        <div id="message-box" class="message-box">
-          <p id="message-text"></p>
-          <button
-            onclick="document.getElementById('message-box').style.display='none'"
-          >
-            OK
+      <main id="Container">
+        <div id="InputContainer">
+          <input type="text" id="CityName" placeholder="Enter City Name" />
+          <button id="SearchButton" aria-label="Search">
+            <i class="fas fa-search"></i>
           </button>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex flex-col lg:flex-row gap-6 w-full">
-          <!-- Current Weather Card -->
-          <div
-            id="current-weather"
-            class="current-weather-card w-full lg:w-1/3 p-6 min-h-[300px]"
-          >
-            <div class="text-xl font-semibold" id="current-day"></div>
-            <div class="text-sm" id="current-date"></div>
-            <div class="text-2xl font-medium mt-2" id="current-location"></div>
-            <img
-              id="current-weather-icon"
-              src=""
-              alt="Weather Icon"
-              class="w-24 h-24 my-4"
-            />
-            <div class="text-7xl font-bold" id="current-temp"></div>
-            <div class="text-2xl mt-2" id="current-condition"></div>
-          </div>
-
-          <!-- Next Days Forecast Section -->
-          <div
-            id="forecast-section"
-            class="flex-grow w-full lg:w-2/3 bg-gray-50 rounded-xl p-6 shadow-md"
-          >
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">
-              Next 5 Days Forecast
-            </h2>
-            <div
-              id="forecast-grid"
-              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
-            >
-              <!-- Forecast items will be dynamically inserted here -->
+        <div id="WeatherDisplay">
+          <section id="CurrentWeatherCard">
+            <div class="weather-date-location">
+              <span id="current-day">SUNDAY</span>
+              <span id="current-date">22 JUNE 2025</span>
+              <span id="current-location">Islamabad, PK</span>
             </div>
-          </div>
+            <div class="weather-temp-condition">
+              <img
+                id="current-weather-icon"
+                src="https://openweathermap.org/img/wn/01d@4x.png"
+                alt="Weather icon"
+              />
+              <span id="current-temp">29°C</span>
+              <span id="current-condition">SUNNY</span>
+            </div>
+          </section>
+
+          <section id="NextDaysNews">
+            <h2>NEXT 5-DAY FORECAST</h2>
+            <div class="forecast-grid">
+              <div class="forecast-item">
+                <span class="forecast-day">MON</span>
+                <img
+                  src="https://openweathermap.org/img/wn/02d@2x.png"
+                  alt="Cloudy"
+                  class="forecast-icon"
+                />
+                <span class="forecast-temps">28°C / 18°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-day">TUE</span>
+                <img
+                  src="https://openweathermap.org/img/wn/04d@2x.png"
+                  alt="Overcast"
+                  class="forecast-icon"
+                />
+                <span class="forecast-temps">27°C / 17°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-day">WED</span>
+                <img
+                  src="https://openweathermap.org/img/wn/09d@2x.png"
+                  alt="Rainy"
+                  class="forecast-icon"
+                />
+                <span class="forecast-temps">25°C / 16°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-day">THU</span>
+                <img
+                  src="https://openweathermap.org/img/wn/10d@2x.png"
+                  alt="Rainy"
+                  class="forecast-icon"
+                />
+                <span class="forecast-temps">24°C / 15°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-day">FRI</span>
+                <img
+                  src="https://openweathermap.org/img/wn/13d@2x.png"
+                  alt="Snow"
+                  class="forecast-icon"
+                />
+                <span class="forecast-temps">23°C / 14°C</span>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
+      </main>
     </div>
 
-    <script>
-      // Set up Firebase configurations and initialize app
-      const appId =
-        typeof __app_id !== "undefined" ? __app_id : "default-app-id";
-      const firebaseConfig =
-        typeof __firebase_config !== "undefined"
-          ? JSON.parse(__firebase_config)
-          : {};
+    <div id="message-box" class="message-box">
+      <p id="message-text"></p>
+      <button
+        onclick="document.getElementById('message-box').style.display='none'"
+      >
+        OK
+      </button>
+    </div>
 
-      // OpenWeatherMap API Key (Replace with your actual API key)
-      const OPENWEATHER_API_KEY = "057788ae0bd9dc62ca5c46548e59ba50"; // IMPORTANT: Replace this with your actual key from OpenWeatherMap!
-      const DEFAULT_CITY = "Islamabad"; // Default city to display on load
-
-      const cityInput = document.getElementById("city-input");
-      const searchButton = document.getElementById("search-button");
-      const currentWeatherDiv = document.getElementById("current-weather");
-      const forecastGrid = document.getElementById("forecast-grid");
-      const loadingIndicator = document.getElementById("loading-indicator");
-      const messageBox = document.getElementById("message-box");
-      const messageText = document.getElementById("message-text");
-
-      // Function to show a custom message box
-      function showMessage(message) {
-        messageText.textContent = message;
-        messageBox.style.display = "block";
-      }
-
-      // Function to fetch weather data
-      async function fetchWeatherData(city) {
-        loadingIndicator.classList.remove("hidden"); // Show loading indicator
-        try {
-          // Fetch coordinates for the city using Geocoding API
-          const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${OPENWEATHER_API_KEY}`;
-          const geoResponse = await fetch(geoUrl);
-          const geoData = await geoResponse.json();
-
-          if (!geoResponse.ok || geoData.length === 0) {
-            showMessage(`City not found: ${city}. Please try again.`);
-            return;
-          }
-
-          const { lat, lon, name, country } = geoData[0];
-
-          // Fetch current and 5-day forecast using One Call API
-          const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&appid=${OPENWEATHER_API_KEY}`;
-          const weatherResponse = await fetch(weatherUrl);
-          const weatherData = await weatherResponse.json();
-
-          if (!weatherResponse.ok) {
-            showMessage(
-              `Error fetching weather data: ${
-                weatherData.message || "Unknown error"
-              }`
-            );
-            return;
-          }
-
-          displayCurrentWeather(weatherData.current, name, country);
-          displayForecast(weatherData.daily, name);
-        } catch (error) {
-          console.error("Error fetching weather data:", error);
-          showMessage(
-            "Failed to fetch weather data. Please check your network connection or API key."
-          );
-        } finally {
-          loadingIndicator.classList.add("hidden"); // Hide loading indicator
-        }
-      }
-
-      // Function to display current weather
-      function displayCurrentWeather(current, city, country) {
-        const date = new Date(current.dt * 1000);
-        document.getElementById("current-day").textContent = date
-          .toLocaleDateString("en-US", { weekday: "long" })
-          .toUpperCase();
-        document.getElementById("current-date").textContent = date
-          .toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })
-          .toUpperCase();
-        document.getElementById(
-          "current-location"
-        ).textContent = `${city}, ${country}`;
-        document.getElementById("current-temp").textContent = `${Math.round(
-          current.temp
-        )}°C`;
-        document.getElementById("current-condition").textContent =
-          current.weather[0].main.toUpperCase();
-
-        // Set current weather icon
-        const iconCode = current.weather[0].icon;
-        document.getElementById(
-          "current-weather-icon"
-        ).src = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
-        document.getElementById("current-weather-icon").alt =
-          current.weather[0].description;
-      }
-
-      // Function to display 5-day forecast
-      function displayForecast(daily, city) {
-        forecastGrid.innerHTML = ""; // Clear previous forecast
-        // Get next 5 days, excluding current day (index 0)
-        for (let i = 1; i <= 5; i++) {
-          const day = daily[i];
-          if (!day) continue; // In case there are less than 5 days in the forecast array
-
-          const date = new Date(day.dt * 1000);
-          const dayName = date
-            .toLocaleDateString("en-US", { weekday: "short" })
-            .toUpperCase();
-          const iconCode = day.weather[0].icon;
-          const description = day.weather[0].description;
-          const tempHigh = Math.round(day.temp.max);
-          const tempLow = Math.round(day.temp.min);
-
-          const forecastItem = document.createElement("div");
-          forecastItem.className = "forecast-item";
-          forecastItem.innerHTML = `
-                    <div class="font-medium text-gray-700 mb-2">${dayName}</div>
-                    <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${description}" class="w-16 h-16">
-                    <div class="text-lg font-semibold text-gray-900">${tempHigh}°C / ${tempLow}°C</div>
-                    <div class="text-sm text-gray-600">${
-                      description.charAt(0).toUpperCase() + description.slice(1)
-                    }</div>
-                `;
-          forecastGrid.appendChild(forecastItem);
-        }
-      }
-
-      // Event Listeners
-      searchButton.addEventListener("click", () => {
-        const city = cityInput.value.trim();
-        if (city) {
-          fetchWeatherData(city);
-        } else {
-          showMessage("Please enter a city name.");
-        }
-      });
-
-      cityInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          searchButton.click();
-        }
-      });
-
-      // Fetch weather for the default city on page load
-      window.onload = () => {
-        // Check if API key is set
-        if (
-          OPENWEATHER_API_KEY === "YOUR_OPENWEATHER_API_KEY" ||
-          !OPENWEATHER_API_KEY
-        ) {
-          showMessage(
-            'Please replace "YOUR_OPENWEATHER_API_KEY" in the JavaScript code with your actual OpenWeatherMap API key to fetch live data.'
-          );
-        } else {
-          fetchWeatherData(DEFAULT_CITY);
-        }
-      };
-    </script>
+    <div id="loading-indicator" class="loading-indicator">
+      <i class="fas fa-spinner fa-spin"></i> Loading...
+    </div>
   </body>
 </html>
