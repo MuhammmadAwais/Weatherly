@@ -1,48 +1,105 @@
-/* General body and app wrapper styling */
+/* Universal Box Sizing & Font Smoothing */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keyframes for Animations */
+@keyframes animated-sky {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes text-glow {
+  from {
+    text-shadow: 0 0 8px rgba(137, 247, 254, 0.5),
+      0 0 10px rgba(102, 166, 255, 0.5);
+  }
+  to {
+    text-shadow: 0 0 16px rgba(137, 247, 254, 0.8),
+      0 0 20px rgba(102, 166, 255, 0.8);
+  }
+}
+
+/* Animated Body Background */
 body {
   background-color: #0c0c0c;
   color: #f0f0f0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   text-align: center;
-  margin: 0;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
+
+  /* Layered Background: Animated Gradient on top of Static Image */
+  background-image: linear-gradient(
+      -45deg,
+      rgba(10, 10, 15, 0.4),
+      rgba(40, 40, 50, 0.5),
+      rgba(50, 45, 40, 0.4),
+      rgba(20, 20, 25, 0.6)
+    ),
+    url("shutterstock_151812536.jpg");
+  background-size: 400% 400%, cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: animated-sky 25s ease infinite;
 }
 
 #app-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
 }
 
-/* Header Styling */
+/* Animated Header Styling */
 #HeaderName h1 {
-  font-size: 3.5em;
+  font-size: 2.8em;
   font-weight: bold;
-  letter-spacing: 3px;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  margin: 0 0 2rem 0;
+  letter-spacing: 4px;
+  margin-bottom: 2rem;
+  color: transparent; /* Hide the original text color */
+
+  /* Gradient Text Effect */
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Animated Glow Effect */
+  animation: text-glow 2s ease-in-out infinite alternate;
 }
 
-/* Main Container Styling */
+/* Main Container - Glassmorphism Effect */
 #Container {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("shutterstock_151812536.jpg");
-  background-size: cover;
-  background-position: center;
+  /* Frosted Glass Background */
+  background: rgba(12, 15, 26, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
   border-radius: 1.5rem;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
-  padding: 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
   width: 100%;
-  max-width: 900px;
+  max-width: 95%; /* This ensures margin on left/right */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Input Container Styling */
@@ -50,11 +107,10 @@ body {
   display: flex;
   width: 100%;
   max-width: 500px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 50px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #CityName {
@@ -68,23 +124,23 @@ body {
 }
 
 #CityName::placeholder {
-  color: #ccc;
+  color: #a0a0a0;
 }
 
 #SearchButton {
-  background: linear-gradient(135deg, #5c71a3, #435b8b);
+  background: linear-gradient(135deg, #537895, #09203f);
   border: none;
   padding: 0 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 #SearchButton:hover {
-  background: linear-gradient(135deg, #6b84c2, #536fa8);
   transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(83, 120, 149, 0.5);
 }
 
 #SearchButton i {
@@ -97,30 +153,33 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 /* Current Weather Card */
 #CurrentWeatherCard {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("pexels-photo-30618961.jpeg");
   background-size: cover;
   background-position: center;
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   color: white;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.8);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .weather-date-location {
-  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 1.1em;
   font-weight: bold;
-  line-height: 1.5;
   text-transform: uppercase;
 }
 
@@ -133,63 +192,65 @@ body {
 #current-weather-icon {
   width: 100px;
   height: 100px;
-  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
 #current-temp {
   font-size: 4em;
   font-weight: bold;
-  line-height: 1;
 }
 
 #current-condition {
-  font-size: 1.5em;
+  font-size: 1.4em;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* Next Days Forecast Section */
+/* Next Days Forecast - Glassmorphism Effect */
 #NextDaysNews {
-  display: grid;
-  grid-template-rows: auto;
-  gap: 1rem;
-  background-color: rgba(0, 0, 0, 0.3);
+  /* Frosted Glass Background */
+  background: rgba(12, 15, 26, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1.5rem;
   color: white;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* Styled Forecast Heading */
 #NextDaysNews h2 {
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-weight: bold;
-  margin: 0 0 1.5rem 0;
+  margin-bottom: 1.5rem;
   text-transform: uppercase;
   text-align: center;
+  color: #a7c5eb; /* Classic cool blue */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 .forecast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  width: 100%;
 }
 
 .forecast-item {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 0.75rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .forecast-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.03);
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -208,7 +269,7 @@ body {
   font-size: 1em;
 }
 
-/* Message Box and Loading Indicator */
+/* Message Box and Loading Indicator (Unchanged) */
 .message-box,
 .loading-indicator {
   position: fixed;
@@ -247,159 +308,83 @@ body {
   font-size: 1.2em;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 767px) {
+/* --- RESPONSIVE ADJUSTMENTS --- */
+/* Mobile (320px – 600px) */
+@media (max-width: 600px) {
   body {
-    padding: 1rem 0.5rem; /* Adjust padding for smaller screens */
+    padding: 1rem 0.5rem;
   }
-
   #HeaderName h1 {
-    font-size: 2.5em; /* Smaller font size for header on small screens */
-    margin-bottom: 1.5rem;
+    font-size: 2.2em;
+    letter-spacing: 3px;
   }
-
   #Container {
-    padding: 1.5rem;
+    padding: 1rem;
     gap: 1.5rem;
   }
-
-  #InputContainer {
-    flex-direction: column; /* Stack input and button vertically */
-    border-radius: 10px; /* Adjust border radius */
-    max-width: 90%; /* Allow it to take more width on small screens */
-  }
-
-  #CityName {
-    padding: 0.8rem 1rem;
-    font-size: 1em;
-    text-align: center; /* Center placeholder text */
-  }
-
-  #SearchButton {
-    width: 100%; /* Full width button */
-    padding: 0.8rem 0; /* Adjust padding for button */
-    border-radius: 0 0 10px 10px; /* Rounded corners only at the bottom */
-  }
-
-  #SearchButton i {
-    font-size: 1.1em;
-  }
-
-  #WeatherDisplay {
-    flex-direction: column; /* Ensure stacked on small screens */
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  #CurrentWeatherCard,
-  #NextDaysNews {
-    width: 100%; /* Full width for both cards on small screens */
-    padding: 1.5rem;
-  }
-
-  .weather-date-location {
-    font-size: 1em;
-  }
-
-  #current-weather-icon {
-    width: 80px;
-    height: 80px;
-  }
-
   #current-temp {
-    font-size: 3em;
+    font-size: 3.5em;
   }
-
   #current-condition {
     font-size: 1.2em;
   }
-
-  #NextDaysNews h2 {
-    font-size: 1.5em;
-    margin-bottom: 1rem;
-  }
-
   .forecast-grid {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(80px, 1fr)
-    ); /* Adjust minmax for smaller items */
     gap: 0.75rem;
   }
+}
 
-  .forecast-item {
-    padding: 0.75rem;
-  }
-
-  .forecast-icon {
-    width: 40px;
-    height: 40px;
+/* Small Tablets (Portrait): 601px – 768px */
+@media (min-width: 601px) {
+  .forecast-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media (min-width: 768px) {
+/* Large Tablets (Landscape) & Small Laptops: 769px and up */
+@media (min-width: 769px) {
   #WeatherDisplay {
-    flex-direction: row; /* Side-by-side for larger screens */
-    align-items: flex-start; /* Keeps them top-aligned within the flex container */
-    justify-content: center; /* Centers the group of cards if there's extra space */
-    gap: 2rem; /* Adds consistent space between CurrentWeatherCard and NextDaysNews */
+    flex-direction: row;
+    align-items: stretch; /* Makes cards equal height */
+    gap: 2rem;
   }
-
   #CurrentWeatherCard {
-    width: 38%; /* Percentage width for responsiveness */
-    max-width: 350px; /* Maximum width for this card */
+    flex: 1 1 340px;
+    max-width: 400px;
   }
-
   #NextDaysNews {
-    width: 58%; /* Percentage width for responsiveness */
-    max-width: 550px; /* Maximum width for this card */
+    flex: 1.5 1 500px;
+    display: flex;
+    flex-direction: column;
   }
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
+    flex-grow: 1; /* Allows grid to fill space */
+  }
+}
 
-  /* Adjustments for medium screens */
+/* Small Desktops and Laptops: 1025px and up */
+@media (min-width: 1025px) {
   #HeaderName h1 {
-    font-size: 3em;
+    font-size: 3.5em;
   }
-
   #Container {
+    max-width: 1100px;
+  }
+  #NextDaysNews {
     padding: 2rem;
   }
-}
-@media (min-width: 768px) and (max-width: 1204px) {
-  /* No changes are strictly necessary for #WeatherDisplay, #CurrentWeatherCard, and #NextDaysNews here,
-     as their general flex layout (side-by-side) is already handled by the broader @media (min-width: 768px) rule.
-     The key is to adjust the internal layout of .forecast-grid. */
-
-  /* Ensure the forecast grid within #NextDaysNews uses a 2-column layout */
-  #NextDaysNews .forecast-grid {
-    grid-template-columns: 1fr 1fr; /* This forces the forecast items into two equal columns */
-    /* The individual grid-row and grid-column declarations for .forecast-item are no longer needed
-       as they will automatically flow correctly within this 2-column grid. */
-  }
-
-  /* The h2 (NEXT 4-DAY FORECAST) will naturally sit above this 2-column grid. */
-}
-
-@media (min-width: 1024px) {
-  #HeaderName h1 {
-    font-size: 4em; /* Larger header for large screens */
-  }
-
-  #Container {
-    padding: 2.5rem;
-  }
-
-  /* Ensure forecast grid expands on larger screens */
   .forecast-grid {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(120px, 1fr)
-    ); /* Wider items on large screens */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
   }
 }
 
-@media (min-width: 1200px) {
-  /* Further adjustments for extra large screens if needed */
+/* Large Desktops and High-Resolution Screens: 1281px and up */
+@media (min-width: 1281px) {
   #Container {
-    max-width: 1100px; /* Allow container to be wider */
+    max-width: 1200px;
+  }
+  #HeaderName h1 {
+    font-size: 4em;
   }
 }
