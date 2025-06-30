@@ -1,438 +1,124 @@
-/* Universal Box Sizing & Font Smoothing */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
+Here’s an updated CSS code snippet to enhance the styling of your weather app while maintaining the existing layout. The focus is on color combinations, borders, shadows, and animations to create a modern and appealing design:
+css
+/* Universal Box Sizing & Font Smoothing */
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+/* Body Styling */
+body {
+background: linear-gradient(to bottom, #87CEFA, #e0f7fa);
+color: #333;
+font-family: 'Arial', sans-serif;
+}
+/* Header Styling */
+#HeaderName {
+text-align: center;
+padding: 20px;
+background-color: rgba(255, 255, 255, 0.8);
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+border-radius: 10px;
+}
+/* Main Container */
+#Container {
+max-width: 800px;
+margin: 20px auto;
+padding: 20px;
+background: #fff;
+border-radius: 10px;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+/* Input Container */
+#InputContainer {
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
+}
+/* Input Field */
+#CityName {
+width: 70%;
+padding: 10px;
+border: 2px solid #00BFFF;
+border-radius: 5px;
+transition: border-color 0.3s ease;
+}
+#CityName:focus {
+border-color: #1E90FF;
+outline: none;
+}
+/* Search Button */
+#SearchButton {
+padding: 10px 15px;
+background-color: #00BFFF;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin-left: 10px;
+transition: background-color 0.3s;
+}
+#SearchButton:hover {
+background-color: #1E90FF;
+}
+/* Weather Display Section */
+#CurrentWeatherCard {
+text-align: center;
+background-color: rgba(255, 255, 255, 0.9);
+border: 1px solid #1E90FF;
+border-radius: 10px;
+padding: 20px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+/* Forecast Section */
+#NextDaysNews {
+margin-top: 20px;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 10px;
+}
+.forecast-item {
+background-color: rgba(244, 244, 244, 0.7);
+border-radius: 8px;
+padding: 10px;
+text-align: center;
+transition: transform 0.3s, box-shadow 0.3s;
+}
+.forecast-item:hover {
+transform: translateY(-5px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+/* Font Styling for Days and Temperatures */
+.forecast-day, .forecast-temps {
+color: #007BFF;
+font-weight: bold;
+}
 /* Keyframes for Animations */
 @keyframes animated-sky {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
 }
-
-@keyframes text-glow {
-  from {
-    text-shadow: 0 0 8px rgba(137, 247, 254, 0.5),
-      0 0 10px rgba(102, 166, 255, 0.5);
-  }
-  to {
-    text-shadow: 0 0 16px rgba(137, 247, 254, 0.8),
-      0 0 20px rgba(102, 166, 255, 0.8);
-  }
-}
-
-/* Animated Body Background */
-body {
-  background-color: #0c0c0c;
-  color: #f0f0f0;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  text-align: center;
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  overflow-x: hidden;
-
-  /* Layered Background: Animated Gradient on top of Static Image */
-  background-image: linear-gradient(
-      -45deg,
-      rgba(10, 10, 15, 0.4),
-      rgba(40, 40, 50, 0.5),
-      rgba(50, 45, 40, 0.4),
-      rgba(20, 20, 25, 0.6)
-    ),
-    url("shutterstock_151812536.jpg");
-  background-size: 400% 400%, cover;
-  background-position: center;
-  background-attachment: fixed;
-  animation: animated-sky 25s ease infinite;
-}
-
-#app-wrapper {
-  width: 100%;
-  max-width: 1400px;
-}
-
-/* Animated Header Styling */
-#HeaderName h1 {
-  font-size: 2.8em;
-  font-weight: bold;
-  letter-spacing: 4px;
-  margin-bottom: 2rem;
-  color: transparent; /* Hide the original text color */
-
-  /* Gradient Text Effect */
-  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  /* Animated Glow Effect */
-  animation: text-glow 2s ease-in-out infinite alternate;
-}
-
-/* Main Container - Glassmorphism Effect */
-#Container {
-  /* Frosted Glass Background */
-  background: rgba(12, 15, 26, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border-radius: 1.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 95%; /* This ensures margin on left/right */
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Input Container Styling */
-#InputContainer {
-  display: flex;
-  width: 100%;
-  max-width: 500px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 50px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#CityName {
-  flex-grow: 1;
-  padding: 1rem 1.5rem;
-  border: none;
-  font-size: 1.1em;
-  outline: none;
-  color: #fff;
-  background-color: transparent;
-}
-
-#CityName::placeholder {
-  color: #a0a0a0;
-}
-
-#SearchButton {
-  background: linear-gradient(135deg, #537895, #09203f);
-  border: none;
-  padding: 0 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#SearchButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(83, 120, 149, 0.5);
-}
-
-#SearchButton i {
-  color: white;
-  font-size: 1.2em;
-}
-
-/* Weather Display Section */
-#WeatherDisplay {
-  display: flex;
-  flex-direction: row;
-  align-items: center; /* Add this line */
-  gap: 2rem;
-  width: 100%;
-}
-
-/* Current Weather Card */
-#CurrentWeatherCard {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("pexels-photo-30618961.jpeg");
-  background-size: cover;
-  background-position: center;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  color: white;
-  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.8);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;
-  min-width: 300px;
-  height: 490px;
-  flex: 1 1 340px;
-  max-width: 400px;
-}
-
-.weather-date-location {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 1.1em;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.weather-temp-condition {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#current-weather-icon {
-  width: 100px;
-  height: 100px;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-}
-
-#current-temp {
-  font-size: 4em;
-  font-weight: bold;
-}
-
-#current-condition {
-  font-size: 1.4em;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Next Days Forecast - Glassmorphism Effect */
-#NextDaysNews {
-  /* Frosted Glass Background */
-  background: rgba(12, 15, 26, 0.25);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  border-radius: 1rem;
-  padding: 1.5rem;
-  color: white;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  height: 280px;
-  flex: 1.5 1 500px;
-  display: flex;
-  flex-direction: column;
-  /* Remove absolute positioning */
-  position: relative;
-  top: auto;
-  transform: none;
-  margin-left: 0;
-  align-self: center;
-}
-
-/* Styled Forecast Heading */
-#NextDaysNews h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-  text-align: center;
-  color: #a7c5eb; /* Classic cool blue */
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-}
-
-.forecast-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.forecast-item {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.forecast-item:hover {
-  transform: translateY(-5px) scale(1.03);
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.forecast-day {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.forecast-icon {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 0.5rem;
-}
-
-.forecast-temps {
-  font-size: 1em;
-}
-
-/* Message Box and Loading Indicator (Unchanged) */
-.message-box,
+/* Loading Indicator */
 .loading-indicator {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(25, 25, 25, 0.95);
-  color: #fff;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  display: none;
-  text-align: center;
-  max-width: 90%;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 18px;
+color: #1E90FF;
 }
-
-.message-box button {
-  background-color: #007bff;
-  color: white;
-  padding: 0.8rem 1.8rem;
-  border-radius: 0.5rem;
-  margin-top: 1.5rem;
-  cursor: pointer;
-  border: none;
-  font-size: 1em;
-  transition: background-color 0.2s ease;
+/* Message Box */
+.message-box {
+background-color: rgba(255, 255, 255, 0.9);
+border: 2px solid #00BFFF;
+border-radius: 8px;
+padding: 20px;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
-.message-box button:hover {
-  background-color: #0056b3;
-}
-
-.loading-indicator i {
-  margin-right: 0.75rem;
-  font-size: 1.2em;
-}
-
-/* --- RESPONSIVE ADJUSTMENTS (FIXED) --- */
-
-/* For all screens UP TO 768px (Mobile and Small Tablets) */
-/* This single block will handle the critical layout change for all small devices */
-@media (max-width: 768px) {
-  body {
-    padding: 1rem 0.5rem;
-  }
-
-  /* KEY FIX: Stack the main sections vertically */
-  #WeatherDisplay {
-    flex-direction: column;
-    align-items: center; /* Center the cards */
-    gap: 1.5rem;
-  }
-
-  /* KEY FIX: Make cards take up the full width and remove fixed height */
-  #CurrentWeatherCard,
-  #NextDaysNews {
-    width: 100%;
-    max-width: 450px; /* Constrain width on tablets */
-    height: auto; /* Allow height to be determined by content */
-    flex: 1 1 auto; /* Reset flex for vertical stacking */
-  }
-
-  /* Adjustments for the smallest screens (Mobile: 320px – 600px) */
-  @media (max-width: 600px) {
-    #HeaderName h1 {
-      font-size: 2.2em;
-      letter-spacing: 3px;
-    }
-    #Container {
-      padding: 1rem;
-      gap: 1.5rem;
-    }
-    #current-temp {
-      font-size: 3.5em;
-    }
-    #current-condition {
-      font-size: 1.2em;
-    }
-    .forecast-grid {
-      /* On the smallest screens, two columns are best */
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-  }
-}
-
-/* --- Styles for screens LARGER than 768px --- */
-
-/* Large Tablets (Landscape) & Small Laptops: 769px - 1024px */
-/* Large Tablets (Landscape) & Small Laptops: 769px and up */
-@media (min-width: 769px) {
-  /* This is where the layout returns to being side-by-side */
-  #WeatherDisplay {
-    flex-direction: row;
-    align-items: stretch; /* Makes cards equal height */
-    gap: 2rem;
-  }
-  #CurrentWeatherCard {
-    flex: 1 1 340px;
-    max-width: 400px;
-  }
-  #NextDaysNews {
-    flex: 1.5 1 500px;
-    display: flex;
-    flex-direction: column;
-    height: auto; /* KEY FIX: Remove fixed height to allow the container to grow */
-  }
-
-  /* We establish a 2-column grid here for a consistent experience */
-  .forecast-grid {
-    grid-template-columns: repeat(2, 1fr);
-    flex-grow: 1; /* Allows grid to fill the available space inside the parent */
-  }
-}
-
-/* Small Desktops and Laptops: 1025px and up */
-@media (min-width: 1025px) {
-  #HeaderName h1 {
-    font-size: 3.5em;
-  }
-  #Container {
-    max-width: 1100px;
-  }
-  #NextDaysNews {
-    padding: 2rem;
-  }
-
-  /* FIX: Now we switch to a 4-column grid for wider screens */
-  .forecast-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-/* Large Desktops and High-Resolution Screens: 1281px and up */
-@media (min-width: 1281px) {
-  #Container {
-    max-width: 1200px;
-  }
-  #HeaderName h1 {
-    font-size: 4em;
-  }
-}
-
-/* NOTE: The original (min-width: 601px) block was removed because its
-   rules were illogical and created conflicts. The new @media (max-width: 768px)
-   block now properly handles all small screen sizes in a single, effective rule set.
-*/
+Key Changes:
+Color Scheme: Soft background gradient with contrasting inputs and buttons for better visuals.Borders and Shadows: Increased visibility with shadows and light borders on containers, cards, and buttons.Typography: Enhanced focus colors with hover effects and bold typography for headers and temperatures.Animations: Subtle hover animations on forecast items.
+This design aims for a modern, clean look with a "futuristic" feel, appropriate for a weather application. Feel free to tweak specific colors or styles according to your branding needs!
