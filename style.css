@@ -1,3 +1,7 @@
+@import "https://unpkg.com/open-props" layer(design.system);
+/* You might not need normalize.min.css if you already have a reset/normalize.
+   If you need it, include it: */
+
 /* Universal Box Sizing & Font Smoothing */
 * {
   box-sizing: border-box;
@@ -66,6 +70,11 @@ body {
 
 /* Animated Header Styling */
 #HeaderName h1 {
+  cursor: pointer;
+  position: relative;
+
+  font: 900 60px Montserrat;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   font-size: 2.8em;
   font-weight: bold;
   letter-spacing: 4px;
@@ -73,23 +82,28 @@ body {
   color: transparent; /* Hide the original text color */
 
   /* Gradient Text Effect */
-  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  background: linear-gradient(132deg, rgb(255, 0, 0) 0%, rgb(255, 213, 0) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  /* Animated Glow Effect */
-  animation: text-glow 2s ease-in-out infinite alternate;
 }
 
 /* Main Container - Glassmorphism Effect */
 #Container {
-  /* Frosted Glass Background */
-  background: rgba(12, 15, 26, 0.45);
+  /* Your original Frosted Glass Background, NOW applied to the padding-box. */
+  /* This ensures your existing background is visible inside the border. */
+  background: linear-gradient(135deg, #00feba, #5b548a) padding-box,
+    /* NEW: The gradient for the border area (fills the transparent border) */
+      var(--gradient-1) border-box;
+
+  /* NEW: This creates a transparent border that allows the `border-box` background to show through. */
+  border: solid var(--size-2) transparent; /* --size-2 determines the border thickness */
+
+  /* Your existing styles (kept as is) */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  border-radius: 1.5rem;
+  border-radius: 1.5rem; /* Your original border-radius is kept */
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   padding: 1.5rem;
   width: 100%;
@@ -98,55 +112,99 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+/* Input Container Styling */
+/* Input Container Styling */
+body,
+input {
+  cursor: url(http://k003.kiwi6.com/hotlink/vp054ir5gt/c1.png) 32 32, auto;
+  cursor: -webkit-image-set(url(http://k003.kiwi6.com/hotlink/vp054ir5gt/c1.png) 1x,url(http://k003.kiwi6.com/hotlink/z6fy599487/c2.png) 2x) 32 32, auto;
+}
+body:active,
+input:active {
+  cursor: url(http://k003.kiwi6.com/hotlink/3p6w4icbzt/c1a.png) 32 32, auto;
+  cursor: -webkit-image-set( url(http://k003.kiwi6.com/hotlink/3p6w4icbzt/c1a.png) 1x, url(http://k003.kiwi6.com/hotlink/6ma7828al1/c2a.png) 2x ) 32 32, auto;
 }
 
-/* Input Container Styling */
+/* Static Search Container Styling */
 #InputContainer {
   display: flex;
-  width: 100%;
-  max-width: 500px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 50px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: center;
+  background-color: #fff; /* White background from previous example */
+  border-radius: 120px; /* Highly rounded corners */
+  height: 48px; /* Fixed height, matching the button's height */
+  padding-left: 35px; /* Keep left padding for the input content */
+  padding-right: 0; /* No right padding, button will fill */
+  width: 434px; /* Fixed width for the entire search box */
+  box-shadow: 0 10px 30px #d0d0d0; /* Soft shadow, similar to the initial button shadow */
+  transition: box-shadow 0.2s ease; /* Smooth transition for box-shadow */
+  overflow: hidden; /* Crucial: Ensures the button's left edge is cleanly clipped by container's border-radius */
 }
 
+/* When the search container (the whole box) is focused/active */
+#InputContainer:focus-within {
+  box-shadow: 0 10px 30px #0190bf; /* Stronger blue shadow when active */
+}
+
+/* Input Field Styling */
 #CityName {
-  flex-grow: 1;
-  padding: 1rem 1.5rem;
-  border: none;
-  font-size: 1.1em;
-  outline: none;
-  color: #fff;
+  flex-grow: 1; /* Allow input to take up available space */
   background-color: transparent;
+  border: 0;
+  outline: none;
+  font-size: 19px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #00688a; /* Text color for input */
+  padding: 0 15px 0 0; /* Added a bit of right padding to prevent text from touching button */
+  margin: 0; /* Remove margin as flexbox handles spacing */
+  line-height: 1;
+  cursor: auto;
 }
 
 #CityName::placeholder {
-  color: #a0a0a0;
+  color: #a0a0a0; /* Placeholder color */
 }
 
+/* Search Button Styling */
 #SearchButton {
-  background: linear-gradient(135deg, #537895, #09203f);
-  border: none;
-  padding: 0 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 48px; /* Fixed width for the button (same as height) */
+  height: 48px; /* Fixed height for the button */
+  /* *** IMPORTANT CHANGE HERE: Make the right side rounded, left side straight *** */
+  border-radius: 0 24px 24px 0; /* Matches the container's height (48px) / 2 = 24px for perfect curve */
+  /* ************************************************************************** */
+  background: linear-gradient(
+    132deg,
+    rgb(0, 48, 143) 0%,
+    rgb(0, 255, 255) 100%
+  ); /* Blue background for button */
+  color: #fff; /* White icon color */
+  font-size: 30px; /* Icon size */
+  line-height: 1;
+  padding: 0; /* Remove padding, icon size handles visual */
+  margin-left: auto; /* Pushes the button to the far right of the flex container */
+  border: 0; /* Ensure no default border */
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth transitions */
+  display: flex; /* To center the icon */
+  justify-content: center; /* To center the icon */
+  align-items: center; /* To center the icon */
+  box-shadow: 0 10px 30px #d0d0d0; /* Keep its own shadow */
 }
 
 #SearchButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(83, 120, 149, 0.5);
+  background: linear-gradient(
+    132deg,
+    rgb(30, 144, 255) 0%,
+    rgb(138, 43, 226) 100%
+  ); /* Slightly darker blue on hover */
+  transform: scale(1.05); /* Slight scale up on hover */
 }
 
-#SearchButton i {
-  color: white;
-  font-size: 1.2em;
+/* Icon inside the button */
+#SearchButton .fas {
+  display: block; /* Ensure the icon behaves as a block for line-height */
+  line-height: 1;
 }
 
 /* Weather Display Section */
@@ -216,7 +274,7 @@ body {
 /* Next Days Forecast - Glassmorphism Effect */
 #NextDaysNews {
   /* Frosted Glass Background */
-  background: rgba(12, 15, 26, 0.25);
+  background: linear-gradient(132deg, rgb(65, 80, 95) 0%, rgb(36, 37, 38) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
@@ -255,7 +313,11 @@ body {
 }
 
 .forecast-item {
-  background-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    132deg,
+    rgb(113, 143, 175) 0%,
+    rgb(69, 92, 114) 100%
+  );
   border-radius: 0.75rem;
   padding: 1rem;
   display: flex;
@@ -342,7 +404,14 @@ body {
   }
 
   /* KEY FIX: Make cards take up the full width and remove fixed height */
-  #CurrentWeatherCard,
+  #CurrentWeatherCard {
+    width: 100%;
+    min-width: auto;
+
+    max-width: 450px; /* Constrain width on tablets */
+    height: auto; /* Allow height to be determined by content */
+    flex: 1 1 auto; /* Reset flex for vertical stacking */
+  }
   #NextDaysNews {
     width: 100%;
     max-width: 450px; /* Constrain width on tablets */
