@@ -325,40 +325,61 @@ body {
   font-size: 1.2em;
 }
 
-/* --- RESPONSIVE ADJUSTMENTS --- */
-/* Mobile (320px – 600px) */
-@media (max-width: 600px) {
+/* --- RESPONSIVE ADJUSTMENTS (FIXED) --- */
+
+/* For all screens UP TO 768px (Mobile and Small Tablets) */
+/* This single block will handle the critical layout change for all small devices */
+@media (max-width: 768px) {
   body {
     padding: 1rem 0.5rem;
   }
-  #HeaderName h1 {
-    font-size: 2.2em;
-    letter-spacing: 3px;
-  }
-  #Container {
-    padding: 1rem;
+
+  /* KEY FIX: Stack the main sections vertically */
+  #WeatherDisplay {
+    flex-direction: column;
+    align-items: center; /* Center the cards */
     gap: 1.5rem;
   }
-  #current-temp {
-    font-size: 3.5em;
+
+  /* KEY FIX: Make cards take up the full width and remove fixed height */
+  #CurrentWeatherCard,
+  #NextDaysNews {
+    width: 100%;
+    max-width: 450px; /* Constrain width on tablets */
+    height: auto; /* Allow height to be determined by content */
+    flex: 1 1 auto; /* Reset flex for vertical stacking */
   }
-  #current-condition {
-    font-size: 1.2em;
-  }
-  .forecast-grid {
-    gap: 0.75rem;
+
+  /* Adjustments for the smallest screens (Mobile: 320px – 600px) */
+  @media (max-width: 600px) {
+    #HeaderName h1 {
+      font-size: 2.2em;
+      letter-spacing: 3px;
+    }
+    #Container {
+      padding: 1rem;
+      gap: 1.5rem;
+    }
+    #current-temp {
+      font-size: 3.5em;
+    }
+    #current-condition {
+      font-size: 1.2em;
+    }
+    .forecast-grid {
+      /* On the smallest screens, two columns are best */
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
   }
 }
 
-/* Small Tablets (Portrait): 601px – 768px */
-@media (min-width: 601px) {
-  .forecast-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+/* --- Styles for screens LARGER than 768px --- */
 
+/* Large Tablets (Landscape) & Small Laptops: 769px - 1024px */
 /* Large Tablets (Landscape) & Small Laptops: 769px and up */
 @media (min-width: 769px) {
+  /* This is where the layout returns to being side-by-side */
   #WeatherDisplay {
     flex-direction: row;
     align-items: stretch; /* Makes cards equal height */
@@ -372,10 +393,13 @@ body {
     flex: 1.5 1 500px;
     display: flex;
     flex-direction: column;
+    height: auto; /* KEY FIX: Remove fixed height to allow the container to grow */
   }
+
+  /* We establish a 2-column grid here for a consistent experience */
   .forecast-grid {
     grid-template-columns: repeat(2, 1fr);
-    flex-grow: 1; /* Allows grid to fill space */
+    flex-grow: 1; /* Allows grid to fill the available space inside the parent */
   }
 }
 
@@ -390,6 +414,8 @@ body {
   #NextDaysNews {
     padding: 2rem;
   }
+
+  /* FIX: Now we switch to a 4-column grid for wider screens */
   .forecast-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
@@ -405,3 +431,8 @@ body {
     font-size: 4em;
   }
 }
+
+/* NOTE: The original (min-width: 601px) block was removed because its
+   rules were illogical and created conflicts. The new @media (max-width: 768px)
+   block now properly handles all small screen sizes in a single, effective rule set.
+*/
