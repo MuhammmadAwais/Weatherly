@@ -434,7 +434,6 @@ input:active {
   #CurrentWeatherCard {
     width: 100%;
     min-width: auto;
-
     max-width: 450px; /* Constrain width on tablets */
     height: auto; /* Allow height to be determined by content */
     flex: 1 1 auto; /* Reset flex for vertical stacking */
@@ -446,6 +445,26 @@ input:active {
     flex: 1 1 auto; /* Reset flex for vertical stacking */
   }
 
+  /* === SEARCH BAR FIX FOR TABLETS === */
+  #InputContainer {
+    width: 90%; /* Use percentage instead of fixed width */
+    max-width: 434px; /* Ensure it doesn't get too big */
+    height: 44px;
+    padding-left: 20px;
+  }
+
+  #CityName {
+    font-size: 16px;
+  }
+
+  #SearchButton {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    border-radius: 0 22px 22px 0; /* Keep the pill shape */
+  }
+  /* === END SEARCH BAR FIX === */
+
   /* Adjustments for the smallest screens (Mobile: 320px – 600px) */
   @media (max-width: 600px) {
     #HeaderName h1 {
@@ -456,6 +475,24 @@ input:active {
       padding: 1rem;
       gap: 1.5rem;
     }
+
+    /* === SEARCH BAR FIX FOR MOBILES === */
+    #InputContainer {
+      width: 100%; /* Take full available width */
+      height: 40px;
+      padding-left: 15px;
+    }
+    #CityName {
+      font-size: 14px;
+    }
+    #SearchButton {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+      border-radius: 0 20px 20px 0;
+    }
+    /* === END SEARCH BAR FIX === */
+
     #current-temp {
       font-size: 3.5em;
     }
@@ -472,7 +509,6 @@ input:active {
 
 /* --- Styles for screens LARGER than 768px --- */
 
-/* Large Tablets (Landscape) & Small Laptops: 769px - 1024px */
 /* Large Tablets (Landscape) & Small Laptops: 769px and up */
 @media (min-width: 769px) {
   /* This is where the layout returns to being side-by-side */
@@ -527,8 +563,3 @@ input:active {
     font-size: 4em;
   }
 }
-
-/* NOTE: The original (min-width: 601px) block was removed because its
-   rules were illogical and created conflicts. The new @media (max-width: 768px)
-   block now properly handles all small screen sizes in a single, effective rule set.
-*/
