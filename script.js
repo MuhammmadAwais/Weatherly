@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- 1. CONFIGURATION & DOM SELECTION ---
-  const API_KEY = "057788ae0bd9dc62ca5c46548e59ba50"; // Using the valid key you provided.
+  const API_KEY = "057788ae0bd9dc62ca5c46548e59ba50";
+
+  // Page Elements
+  const bodyEl = document.body; // ✅ FIX: Select the body element
 
   // Input Elements
   const cityInput = document.getElementById("CityName");
@@ -13,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const weatherDisplay = document.getElementById("WeatherDisplay");
 
   // Current Weather Elements
+  const currentWeatherCardEl = document.getElementById("CurrentWeatherCard");
   const currentDayEl = document.getElementById("current-day");
   const currentDateEl = document.getElementById("current-date");
   const currentLocationEl = document.getElementById("current-location");
@@ -25,75 +29,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- 2. UI MANIPULATION FUNCTIONS ---
 
-  /**
-   * Toggles the visibility of the loading indicator and main content.
-   * @param {boolean} isLoading - True to show loading, false to show content.
-   */
   const toggleLoading = (isLoading) => {
     loadingIndicator.style.display = isLoading ? "flex" : "none";
     weatherDisplay.style.display = isLoading ? "none" : "flex";
   };
 
-  /**
-   * Displays a message to the user in the custom message box.
-   * @param {string} message - The message to display.
-   */
   const showMessage = (message) => {
-    // Capitalize the first letter for a cleaner look
     const formattedMessage = message.charAt(0).toUpperCase() + message.slice(1);
     messageText.textContent = formattedMessage;
     messageBox.style.display = "block";
-    toggleLoading(false); // Ensure loader is hidden when message appears
+    toggleLoading(false);
   };
 
-  /**
-   * Updates the UI with the current weather data.
-   * @param {object} data - The current weather data from the API.
-   */
   const updateCurrentWeather = (data) => {
     const date = new Date(data.dt * 1000);
+    const weatherCondition = data.weather[0].main.toUpperCase();
 
-    currentDayEl.textContent = date.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
-    currentDateEl.textContent = date.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).toUpperCase();
+    // Update text and icon elements
+    currentDayEl.textContent = date
+      .toLocaleDateString("en-US", { weekday: "long" })
+      .toUpperCase();
+    currentDateEl.textContent = date
+      .toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+      .toUpperCase();
     currentLocationEl.textContent = `${data.name}, ${data.sys.country}`;
     currentWeatherIconEl.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
     currentTempEl.textContent = `${Math.round(data.main.temp)}°C`;
-    currentConditionEl.textContent = data.weather[0].main.toUpperCase();
+    currentConditionEl.textContent = weatherCondition;
+
+    // --- Background Changer Logic ---
+    const overlay = "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),";
+
+    // ✅ FIX: Changed 'body' to 'bodyEl' in all lines below
+    if (weatherCondition === "CLOUDS") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-clouds.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-clouds.jpg")`;
+    } else if (weatherCondition === "RAIN") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-rain.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-rain.jpg")`;
+    } else if (weatherCondition === "THUNDERSTORM") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-thunderstorm.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-thunderstorm.jpg")`;
+    } else if (weatherCondition === "SNOW") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-snow.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-snow.jpg")`;
+    } else if (weatherCondition === "DRIZZLE") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-drizzle.jpg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-drizzle.jpg")`;
+    } else if (weatherCondition === "CLEAR") {
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-clear.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-clear.jpg")`;
+    } else if (
+      weatherCondition === "MIST" ||
+      weatherCondition === "FOG" ||
+      weatherCondition === "HAZE"
+    ) {
+      // Grouping atmosphere conditions
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-atmosphere.jpg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-atmosphere.jpg")`;
+    } else {
+      // Reset to the default background for all other weather conditions
+      currentWeatherCardEl.style.backgroundImage = `${overlay} url("wc-default.jpeg")`;
+      bodyEl.style.backgroundImage = `${overlay} url("bb-default.jpg")`;
+    }
   };
 
-  /**
-   * Updates the UI with the 4-day forecast data.
-   * @param {object} data - The forecast data from the API.
-   */
   const updateForecast = (data) => {
-    forecastGrid.innerHTML = ""; // Clear previous forecast items
-
-    // Filter to get one forecast per day for the next 4 days (at noon)
+    forecastGrid.innerHTML = "";
     const dailyForecasts = data.list
       .filter((item) => item.dt_txt.includes("12:00:00"))
       .slice(0, 4);
 
     dailyForecasts.forEach((forecast) => {
       const date = new Date(forecast.dt * 1000);
-      const day = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
-      const temp = Math.round(forecast.main.temp); // Using the noon temp for simplicity
-
+      const day = date
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toUpperCase();
+      const temp = Math.round(forecast.main.temp);
       const forecastItem = document.createElement("div");
       forecastItem.className = "forecast-item";
-
-      // Note: The free forecast API doesn't provide daily min/max easily.
-      // We are showing the temperature at noon for each day.
       forecastItem.innerHTML = `
         <span class="forecast-day">${day}</span>
-        <img
-          src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png"
-          alt="${forecast.weather[0].description}"
-          class="forecast-icon"
-        />
+        <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}" class="forecast-icon" />
         <span class="forecast-temps">${temp}°C</span>
       `;
       forecastGrid.appendChild(forecastItem);
@@ -101,40 +122,30 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // --- 3. API & DATA HANDLING ---
-
-  /**
-   * Fetches and displays all weather data for a given city.
-   * @param {string} city - The name of the city.
-   */
   async function fetchWeather(city) {
     toggleLoading(true);
-
     const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
 
     try {
-      // Fetch both endpoints at the same time
       const [currentResponse, forecastResponse] = await Promise.all([
         fetch(currentWeatherUrl),
         fetch(forecastUrl),
       ]);
-
-      // Check both responses for errors
       if (!currentResponse.ok || !forecastResponse.ok) {
-        const errorData = await (currentResponse.ok ? forecastResponse.json() : currentResponse.json());
+        const errorData = await (currentResponse.ok
+          ? forecastResponse.json()
+          : currentResponse.json());
         throw new Error(errorData.message || "An error occurred.");
       }
-
       const currentData = await currentResponse.json();
       const forecastData = await forecastResponse.json();
-
       updateCurrentWeather(currentData);
       updateForecast(forecastData);
     } catch (error) {
       console.error("Fetch Error:", error);
       showMessage(error.message);
     } finally {
-      // Hide loader only if a message box isn't already showing
       if (messageBox.style.display !== "block") {
         toggleLoading(false);
       }
@@ -142,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 4. EVENT LISTENERS ---
-
   searchButton.addEventListener("click", () => {
     const city = cityInput.value.trim();
     if (city) {
@@ -164,7 +174,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --- 5. INITIALIZATION ---
-
-  // Load weather for Rawalpindi on page load
   fetchWeather("Rawalpindi");
 });

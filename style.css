@@ -56,7 +56,7 @@ body {
       rgba(50, 45, 40, 0.4),
       rgba(20, 20, 25, 0.6)
     ),
-    url("shutterstock_151812536.jpg");
+    url("bb-default.jpg");
   background-size: 400% 400%, cover;
   background-position: center;
   background-attachment: fixed;
@@ -219,7 +219,7 @@ input:active {
 /* Current Weather Card */
 #CurrentWeatherCard {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("pexels-photo-30618961.jpeg");
+    url("wc-default.jpeg");
   background-size: cover;
   background-position: center;
   /* Apply border-radius directly to the main element */
